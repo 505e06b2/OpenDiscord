@@ -4,5 +4,8 @@
 	"main": "index.js",
 	"scripts": {
 		"start": "electron ."
+	},
+	"dependencies": {
+		"electron": "^9.0.5"
 	}
 }
