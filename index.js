@@ -10,12 +10,62 @@ const styles_dir = "styles";
 const scripts_dir = "scripts";
 const separator = " ";
 
+class Settings {
+	constructor(file_path) {
+		this.file_path = file_path;
+		let default_settings = "800\n600\n0\n0\ntrue\ntrue";
+
+		// Write default settings if the settings file does not exist.
+		if (!fs.existsSync(this.file_path)) {
+			fs.writeFileSync(this.file_path, default_settings, (err) => { if (err) throw err; });
+		}
+
+		// Read settings file and assign attributes based on the split.
+		let data = fs.readFileSync(this.file_path, 'utf8').split("\n");
+		this.width = Number(data[0]);
+		this.height = Number(data[1]);
+		this.x = Number(data[2]);
+		this.y = Number(data[3]);
+		if(data[4] === "true") {
+			this.close_to_taskbar = true;
+		} else {
+			this.close_to_taskbar = false;
+		}
+		if(data[5] === "true") {
+			this.no_menu = true;
+		} else {
+			this.no_menu = false;
+		}
+	}
+
+	// Sets the offset of the class.
+	// This is necessary to keep the same window position over time.
+	// Needs to be called after the window has been drawn.
+	setOffset(window_position) {
+		this.offset_x = window_position[0] - this.x;
+		this.offset_y = window_position[1] - this.y;
+	}
+
+	// Updates the x and y attributes to the current window position accounting for the offset.
+	updatePosition(window_position) {
+		this.x = window_position[0] - this.offset_x;
+		this.y = window_position[1] - this.offset_y;
+	}
+
+	// Save the current settings to file.
+	save() {
+		let data = `${this.width}\n${this.height}\n${this.x}\n${this.y}\n${this.close_to_taskbar}\n${this.no_menu}`;
+		fs.writeFileSync(this.file_path, data, (err) => { if (err) throw err; });
+	}
+}
+
 electron.app.on("ready", () => {
 	let quit = false;
+	let settings = new Settings("settings.txt")
 
 	const win = new electron.BrowserWindow({
-		width: 800,
-		height: 600,
+		width: settings.width,
+		height: settings.height,
 		webPreferences: {
 			nodeIntegration: false,
 			spellcheck: true
@@ -24,7 +74,8 @@ electron.app.on("ready", () => {
 		icon: "assets/icon.png"
 	});
 
-	//win.removeMenu(); //no menu items
+	win.setPosition(settings.x, settings.y);
+	if(settings.no_menu) { win.removeMenu(); }
 	//win.webContents.openDevTools();
 
 	const tray_icon = new electron.Tray("assets/icon.png");
@@ -43,16 +94,20 @@ electron.app.on("ready", () => {
 	tray_icon.setContextMenu(context_menu);
 
 	win.on("close", (event) => {
-		if(!quit) {
-			event.preventDefault();
-			win.hide();
-			return false;
+		if(settings.close_to_taskbar) {
+			if(!quit) {
+				event.preventDefault();
+				win.hide();
+				return false;
+			}
 		}
+		settings.updatePosition(win.getPosition());
+		settings.save();
 	});
 
-
-
 	win.webContents.on("dom-ready", async (event) => {
+		settings.setOffset(win.getPosition());
+
 		const readFile = (folder, name) => {
 			return (new string_decoder()).write(fs.readFileSync(path.join(folder, name)));
 		};
@@ -96,7 +151,7 @@ electron.app.on("ready", () => {
 		if(params.misspelledWord) {
 			const menu = new electron.Menu();
 
-			for (const suggestion of params.dictionarySuggestions) {
+			for(const suggestion of params.dictionarySuggestions) {
 				menu.append(new electron.MenuItem({
 					label: suggestion,
 					click: () => win.webContents.replaceMisspelling(suggestion)
