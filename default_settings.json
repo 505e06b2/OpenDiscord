@@ -1,0 +1,8 @@
+{
+    "styles_dir": "styles",
+    "scripts_dir": "scripts",
+    "show_menu_bar": true,
+    "window_bounds": {},
+    "close_to_tray": true,
+    "start_in_tray": false
+}

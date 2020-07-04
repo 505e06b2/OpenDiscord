@@ -1,0 +1,22 @@
+div[aria-label="Screen Sharing Unavailable"] button[class*="colorBrand"],
+div[aria-label="Browser not supported"] button[class*="colorBrand"] {
+	display: none;
+}
+
+div[aria-label="Screen Sharing Unavailable"] div[class^="colorStandard"],
+div[aria-label="Browser not supported"] div[class^="colorStandard"] {
+	position: relative;
+	visibility: hidden;
+}
+
+div[aria-label="Screen Sharing Unavailable"] div[class^="colorStandard"]::after,
+div[aria-label="Browser not supported"] div[class^="colorStandard"]::after {
+	content: "Use Google Hangouts to voice chat, video chat, and screen share without downloading a thing!";
+
+	visibility: visible;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+}
