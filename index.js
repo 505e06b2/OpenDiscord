@@ -11,18 +11,18 @@ const scripts_dir = "scripts";
 const separator = " ";
 
 class Settings {
-    constructor(file_path) {
+	constructor(file_path) {
 		this.file_path = file_path;
 		let default_settings = "800\n600\n0\n0\ntrue\ntrue";
 
-        // Write default settings if the settings file does not exist.
-        if (!fs.existsSync(this.file_path)) {
-            fs.writeFileSync(this.file_path, default_settings, (err) => { if (err) throw err; });
-        }
+		// Write default settings if the settings file does not exist.
+		if (!fs.existsSync(this.file_path)) {
+			fs.writeFileSync(this.file_path, default_settings, (err) => { if (err) throw err; });
+		}
 
 		// Read settings file and assign attributes based on the split.
 		let data = fs.readFileSync(this.file_path, 'utf8').split("\n");
-        this.width = Number(data[0]);
+		this.width = Number(data[0]);
 		this.height = Number(data[1]);
 		this.x = Number(data[2]);
 		this.y = Number(data[3]);
