@@ -1,0 +1,8 @@
+#guild-header-popout-premium-subscribe {
+	display: none;
+}
+
+/* Hide the separator, but make sure there's no collateral damage */
+#guild-header-popout > div[class^="scroller"] > div[role="separator"]:nth-of-type(2) {
+	display: none;
+}
