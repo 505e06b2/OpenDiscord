@@ -4,7 +4,7 @@ const child_process = require("child_process");
 const platform = require("process").platform;
 const fs = require("fs");
 const path = require("path");
-const string_decoder = require('string_decoder').StringDecoder;
+const string_decoder = require("string_decoder").StringDecoder;
 
 const separator = " "; //for native UI
 
@@ -43,8 +43,6 @@ electron.app.on("ready", () => {
 		icon: "assets/icon.png"
 	});
 
-	//win.setPosition(settings.x, settings.y);
-	//if(settings.no_menu) { win.removeMenu(); }
 	//win.webContents.openDevTools();
 
 	const settings = new (function () {
