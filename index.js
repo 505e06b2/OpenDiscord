@@ -8,7 +8,7 @@ const string_decoder = require('string_decoder').StringDecoder;
 
 const styles_dir = "styles";
 const scripts_dir = "scripts";
-const separator = "========";
+const separator = " ";
 
 electron.app.on("ready", () => {
 	let quit = false;
@@ -57,16 +57,17 @@ electron.app.on("ready", () => {
 			return (new string_decoder()).write(fs.readFileSync(path.join(folder, name)));
 		};
 
-		console.log("Loaded CSS files:");
+		console.log("\nDOM Ready...");
+		console.log(`Loaded CSS files (${styles_dir}/):`);
 		for(const file_name of fs.readdirSync(styles_dir)) {
 			win.webContents.insertCSS( readFile(styles_dir, file_name) );
-			console.log(`- ${styles_dir}/${file_name}`);
+			console.log(`- ${file_name}`);
 		}
 
-		console.log("\nLoaded Javascript files:");
+		console.log(`\nLoaded Javascript files (${scripts_dir}/):`);
 		for(const file_name of fs.readdirSync(scripts_dir)) {
 			win.webContents.executeJavaScript(readFile(scripts_dir, file_name));
-			console.log(`- ${scripts_dir}/${file_name}`);
+			console.log(`- ${file_name}`);
 		}
 	});
 

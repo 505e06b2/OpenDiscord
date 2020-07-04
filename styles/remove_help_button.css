@@ -1,0 +1,3 @@
+div[class^="toolbar"] > a[class^="anchor"][href="https://support.discord.com"] {
+	display: none;
+}
