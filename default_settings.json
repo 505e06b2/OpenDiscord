@@ -1,9 +1,0 @@
-{
-    "styles_dir": "styles",
-    "scripts_dir": "scripts",
-    "show_menu_bar": true,
-    "window_bounds": {},
-    "save_window_bounds_on_exit": true,
-    "close_to_tray": true,
-    "start_in_tray": false
-}
