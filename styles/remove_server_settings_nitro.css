@@ -1,0 +1,6 @@
+/* THIS IS QUITE DESTRUCTIVE - ANY CHANGES WILL RESULT IN ITEMS BEING MISSING */
+div[aria-label="GUILD_SETTINGS"] nav[class^="sidebar"] > div[class^="side"] > div[class^="item"][style^="color"]/* Server Boost Status */,
+div[aria-label="GUILD_SETTINGS"] nav[class^="sidebar"] > div[class^="side"] > div[class^="separator"]:nth-child(11)
+{
+	display: none;
+}
