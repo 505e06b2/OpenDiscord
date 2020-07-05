@@ -52,6 +52,7 @@ electron.app.on("ready", () => {
 			scripts_dir: "scripts",
 			show_menu_bar: true,
 			window_bounds: {},
+			save_window_bounds_on_exit: true,
 			close_to_tray: true,
 			start_in_tray: false
 		};
@@ -70,7 +71,7 @@ electron.app.on("ready", () => {
 		};
 
 		this.save = () => {
-			contents.window_bounds = win.getBounds();
+			if(this.get("save_window_bounds_on_exit")) contents.window_bounds = win.getBounds();
 			fs.writeFileSync(settings_file, JSON.stringify(contents, null, 4));
 		}
 
