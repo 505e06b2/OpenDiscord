@@ -35,8 +35,8 @@ electron.app.on("ready", () => {
 		},
 
 		show: false,
-		width: 800,
-		height: 400,
+		width: 1280,
+		height: 720,
 		minWidth: 100,
 		minHeight: 100,
 
@@ -139,7 +139,7 @@ electron.app.on("ready", () => {
 		event.preventDefault();
 		switch(platform) {
 			case "win32":
-				child_process.exec(`start "${url}"`);
+				child_process.exec(`start ${url}`);
 				break;
 
 			default:
