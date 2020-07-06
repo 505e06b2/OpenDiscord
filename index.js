@@ -175,15 +175,15 @@ electron.app.on("ready", () => {
 	//Grab the authorisation keys so userscripts can perform selfbot actions
 	electron.session.defaultSession.webRequest.onSendHeaders(async (details) => {
 		if(settings.get("allow_selfbot_actions") && details.url.startsWith("https://discord.com/api/v6/")) {
+			//Cannot stress how important this setting is!! ALWAYS LEAVE IT DISABLED IF YOU INSTALL AN UNAUDITED SCRIPT!
 			for(const key in details.requestHeaders) { //in case the lettercasing is odd
-
 				if(key.toLowerCase() === "authorization") {
 					try {
 						await win.webContents.executeJavaScript(`ACCOUNT_TOKEN = "${details.requestHeaders[key]}"`);
 					} catch {}
 				}
-
 			}
+
 		}
 	});
 
