@@ -95,6 +95,8 @@ electron.app.on("ready", () => {
 
 	// == Document Events ==
 	win.webContents.on("dom-ready", (event) => {
+		win.webContents.executeJavaScript("let ACCOUNT_TOKEN;").then((r) => {if(r) console.error(r)});
+
 		console.log("\n========== PAGE LOAD ==========\n");
 		function readFile(folder, name) {
 			return (new string_decoder()).write(fs.readFileSync(path.join(folder, name)));
