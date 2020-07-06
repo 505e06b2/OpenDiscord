@@ -54,7 +54,8 @@ electron.app.on("ready", () => {
 			window_bounds: {},
 			save_window_bounds_on_exit: true,
 			close_to_tray: true,
-			start_in_tray: false
+			start_in_tray: false,
+			allow_selfbot_actions: false
 		};
 		fs.writeFileSync("default_settings.json", JSON.stringify(defaults, null, 4));
 		let contents = defaults;
@@ -120,7 +121,7 @@ electron.app.on("ready", () => {
 
 			console.log(`\nLoaded Javascript files (${scripts_dir}/):`);
 			for(const file_name of fs.readdirSync(scripts_dir)) {
-				win.webContents.executeJavaScript(readFile(scripts_dir, file_name));
+				await win.webContents.executeJavaScript(readFile(scripts_dir, file_name));
 				console.log(`- ${file_name}`);
 			}
 		})();
@@ -168,6 +169,21 @@ electron.app.on("ready", () => {
 			)
 
 			menu.popup();
+		}
+	});
+
+	//Grab the authorisation keys so userscripts can perform selfbot actions
+	electron.session.defaultSession.webRequest.onSendHeaders(async (details) => {
+		if(settings.get("allow_selfbot_actions") && details.url.startsWith("https://discord.com/api/v6/")) {
+			for(const key in details.requestHeaders) { //in case the lettercasing is odd
+
+				if(key.toLowerCase() === "authorization") {
+					try {
+						await win.webContents.executeJavaScript(`ACCOUNT_TOKEN = "${details.requestHeaders[key]}"`);
+					} catch {}
+				}
+
+			}
 		}
 	});
 

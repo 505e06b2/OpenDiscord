@@ -65,13 +65,13 @@
             "headers": {
                 "accept": "*/*",
                 "accept-language": "en-GB",
-                "authorization": "mfa.iVjsVLVXirbIQjsKkJcmT0gHX2j1kTldby6aLoZZU8oslfErdmUl2JBh_OznToOJfrG_HOP3VZoW6uOyO6bG",
+                "authorization": ACCOUNT_TOKEN,
                 "cache-control": "no-cache",
                 "pragma": "no-cache",
                 "sec-fetch-dest": "empty",
                 "sec-fetch-mode": "cors",
                 "sec-fetch-site": "same-origin",
-                "x-super-properties": "eyJvcyI6IkxpbnV4IiwiYnJvd3NlciI6IkNocm9tZSIsImRldmljZSI6IiIsImJyb3dzZXJfdXNlcl9hZ2VudCI6Ik1vemlsbGEvNS4wIChYMTE7IExpbnV4IHg4Nl82NCkgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzgzLjAuNDEwMy45OCBTYWZhcmkvNTM3LjM2IiwiYnJvd3Nlcl92ZXJzaW9uIjoiODMuMC40MTAzLjk4Iiwib3NfdmVyc2lvbiI6IiIsInJlZmVycmVyIjoiaHR0cHM6Ly9kaXNjb3JkLmNvbS9sb2dpbiIsInJlZmVycmluZ19kb21haW4iOiJkaXNjb3JkLmNvbSIsInJlZmVycmVyX2N1cnJlbnQiOiIiLCJyZWZlcnJpbmdfZG9tYWluX2N1cnJlbnQiOiIiLCJyZWxlYXNlX2NoYW5uZWwiOiJzdGFibGUiLCJjbGllbnRfYnVpbGRfbnVtYmVyIjo2MTkyMywiY2xpZW50X2V2ZW50X3NvdXJjZSI6bnVsbH0="
+                //"x-super-properties": X_SUPER_PROPERTIES
             },
             "referrer": current_url,
             "referrerPolicy": "no-referrer-when-downgrade",
@@ -112,11 +112,12 @@
         }
 
         addMenuItem("Add Reaction", () => { message.querySelector('div[aria-label="Message Actions"] div[aria-label="Add Reaction"]').click(); });
-        /* THIS IS BROKEN UNTIL PROMPT IS ACCOUNTED FOR
-        addMenuItem("Write in Reaction", () => {
-            writeReactionSequence(message, prompt("Enter Reaction Text (When the popup comes up, type \":\", then press Enter"));
-        });
-        */
+        if(ACCOUNT_TOKEN) {
+			addMenuItem("Write in Reaction", () => {
+				const messagebox_element = document.querySelector('div[class^="textArea"] > div[aria-label^="Message "] > div[data-slate-object="block"]');
+				writeReactionSequence(message, messagebox_element.innerText.trim());
+			});
+		}
 
         popout_menu.style = `
             position: absolute;
