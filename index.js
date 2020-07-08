@@ -10,6 +10,7 @@ const separator = " "; //for native UI
 
 electron.app.on("ready", () => {
 	let quit = false;
+	let account_token = ""; //issues may arise from having userbots enabled, turning it off in the settings, then reloading
 
 	const tray_icon = new electron.Tray("assets/icon.png");
 	const context_menu = electron.Menu.buildFromTemplate([
@@ -95,8 +96,6 @@ electron.app.on("ready", () => {
 
 	// == Document Events ==
 	win.webContents.on("dom-ready", (event) => {
-		win.webContents.executeJavaScript("let ACCOUNT_TOKEN;").then((r) => {if(r) console.error(r)});
-
 		console.log("\n========== PAGE LOAD ==========\n");
 		function readFile(folder, name) {
 			return (new string_decoder()).write(fs.readFileSync(path.join(folder, name)));
@@ -109,6 +108,7 @@ electron.app.on("ready", () => {
 		quit = !settings.get("close_to_tray");
 		if(!settings.get("start_in_tray")) win.show();
 		win.setMenuBarVisibility( settings.get("show_menu_bar") );
+		win.webContents.executeJavaScript(`const SELFBOT_ACTIONS_ENABLED = ${settings.get("allow_selfbot_actions")};`).then((r) => {if(r) console.error(r)});
 
 		const styles_dir = settings.get("styles_dir");
 		const scripts_dir = settings.get("scripts_dir");
@@ -174,19 +174,38 @@ electron.app.on("ready", () => {
 		}
 	});
 
+	electron.session.defaultSession.webRequest.onBeforeRequest((details, callback) => {
+		const blacklist = ["https://discord.com/api/v6/science"];
+		const ret = {cancel: false};
+		//blacklist URLs
+		for(const x of blacklist) {
+			if(details.url.includes(x)) {
+				ret.cancel = true;
+				break;
+			}
+		}
+		callback(ret);
+	});
+
 	//Grab the authorisation keys so userscripts can perform selfbot actions
-	electron.session.defaultSession.webRequest.onSendHeaders(async (details) => {
-		if(settings.get("allow_selfbot_actions") && details.url.startsWith("https://discord.com/api/v6/")) {
-			//Cannot stress how important this setting is!! ALWAYS LEAVE IT DISABLED IF YOU INSTALL AN UNAUDITED SCRIPT!
-			for(const key in details.requestHeaders) { //in case the lettercasing is odd
-				if(key.toLowerCase() === "authorization") {
-					try {
-						await win.webContents.executeJavaScript(`ACCOUNT_TOKEN = "${details.requestHeaders[key]}"`);
-					} catch {}
+	electron.session.defaultSession.webRequest.onBeforeSendHeaders((details, callback) => {
+		if(details.url.startsWith("https://discord.com/api/v6/")) {
+			for(const key in details.requestHeaders) {
+				const toLower = key.toLowerCase(); //in case the lettercasing is odd
+
+				if(settings.get("allow_selfbot_actions") && toLower === "authorization") {
+					if(details.requestHeaders[key] === "") {
+						details.requestHeaders[key] = account_token; //replace if blank
+					} else {
+						account_token = details.requestHeaders[key]; //set if given
+					}
+
+				} else if(toLower === "x-super-properties") { //remove tracking info
+					delete details.requestHeaders[key];
 				}
 			}
-
 		}
+		callback(details);
 	});
 
 	win.loadURL("https://discord.com/channels/@me/");

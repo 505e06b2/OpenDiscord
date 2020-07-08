@@ -65,13 +65,13 @@
             "headers": {
                 "accept": "*/*",
                 "accept-language": "en-GB",
-                "authorization": ACCOUNT_TOKEN,
+                "authorization": "", //replaced by index.js when sent - must be empty for the script to replace
                 "cache-control": "no-cache",
                 "pragma": "no-cache",
                 "sec-fetch-dest": "empty",
                 "sec-fetch-mode": "cors",
                 "sec-fetch-site": "same-origin",
-                //"x-super-properties": X_SUPER_PROPERTIES
+                //"x-super-properties": "tracking info should be removed from all headers"
             },
             "referrer": current_url,
             "referrerPolicy": "no-referrer-when-downgrade",
@@ -112,7 +112,7 @@
         }
 
         addMenuItem("Add Reaction", () => { message.querySelector('div[aria-label="Message Actions"] div[aria-label="Add Reaction"]').click(); });
-        if(ACCOUNT_TOKEN) {
+        if(SELFBOT_ACTIONS_ENABLED) { //set by index.js if "allow_selfbot_actions" is true
 			addMenuItem("Write in Reaction", () => {
 				const messagebox_element = document.querySelector('div[class^="textArea"] > div[aria-label^="Message "] > div[data-slate-object="block"]');
 				writeReactionSequence(message, messagebox_element.innerText.trim());
