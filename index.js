@@ -6,8 +6,6 @@ const fs = require("fs");
 const path = require("path");
 const string_decoder = require("string_decoder").StringDecoder;
 
-const separator = " "; //for native UI
-
 electron.app.on("ready", () => {
 	let quit = false;
 	let account_token = ""; //issues may arise from having userbots enabled, turning it off in the settings, then reloading
@@ -15,9 +13,14 @@ electron.app.on("ready", () => {
 	const tray_icon = new electron.Tray("assets/icon.png");
 	const context_menu = electron.Menu.buildFromTemplate([
 		{
+			label: "Open Discord", enabled: false
+		},
+		{
 			label: "Show Window", click: () => win.show()
 		},
-		{	label: separator },
+		{
+			type: "separator"
+		},
 		{
 			label: "Quit", click: () => {
 				quit = true;
@@ -123,7 +126,7 @@ electron.app.on("ready", () => {
 
 			console.log(`\nLoaded Javascript files (${scripts_dir}/):`);
 			for(const file_name of fs.readdirSync(scripts_dir)) {
-				await win.webContents.executeJavaScript(readFile(scripts_dir, file_name));
+				await win.webContents.executeJavaScript(readFile(scripts_dir, file_name)); //might change this to async loading in the future
 				console.log(`- ${file_name}`);
 			}
 		})();
@@ -161,7 +164,7 @@ electron.app.on("ready", () => {
 				}));
 			}
 
-			menu.append(new electron.MenuItem({label: separator}));
+			menu.append(new electron.MenuItem({type: "separator"}));
 
 			menu.append(
 				new electron.MenuItem({
