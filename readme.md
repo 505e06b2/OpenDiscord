@@ -7,6 +7,7 @@ Before you run any code, please audit what you are launching; that's the whole p
 ## Features
 - As FOSS as possible
 - Enhanced privacy
+- Disabled tracking
 - Faster startup
 - Javascript mod support
 - CSS styling support
