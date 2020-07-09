@@ -1,7 +1,14 @@
-(function() {
+(async function() {
     "use strict";
 
     async function sleep(ms) {return new Promise(resolve => {setTimeout(resolve, ms);});}
+
+    function getMessageContainer(currentTag) {
+        for(; currentTag != document.body; currentTag = currentTag.parentElement) {
+            if(currentTag.id.startsWith("messages-")) return currentTag;
+        }
+        return null;
+    }
 
     const reaction_dict = {
         " ": ["▪", "◾", "▫", "◽"],
@@ -132,13 +139,6 @@
         return await navigator.clipboard.readText();
     }
 
-    function getMessageContainer(currentTag) {
-        for(; currentTag != document.body; currentTag = currentTag.parentElement) {
-            if(currentTag.id.startsWith("messages-")) return currentTag;
-        }
-        return null;
-    }
-
     async function openMenu(e) {
         const message = getMessageContainer(e.target);
         if(!message) return;
@@ -148,14 +148,5 @@
         alterContextMenu(message, e.clientX, e.clientY);
     }
 
-    async function editMessage(e) {
-        const message = getMessageContainer(e.target);
-        if(!message) return;
-        e.preventDefault();
-
-        message.querySelector('div[aria-label="Message Actions"] div[aria-label="Edit"]').click();
-    }
-
     document.body.oncontextmenu = openMenu;
-    document.body.ondblclick = editMessage;
 })();
