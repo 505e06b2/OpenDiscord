@@ -1,11 +1,16 @@
+// Go get banned then :)
+
 const killer = new (function() {
 	async function sleep(ms) {return new Promise(resolve => {setTimeout(resolve, ms);});}
 
 	//BTS
 	const SERVER = "199993370691633152"
-	const CHANNELS = ["730886083989995561"];
+	const CHANNELS = ["731263395197878312"];
+	const DMS = [];
 
-	const MESSAGE = "https://discord.com/invite/sbABaJy https://discord.com/invite/j8YAqBe https://discord.com/invite/3cKVsvz https://discord.com/invite/953arjf https://discord.com/invite/uZwWJkQ";
+	const MESSAGE = "https://discord.com/invite/sbABaJy https://discord.com/invite/j8YAqBe https://discord.com/invite/3cKVsvz https://discord.com/invite/953arjf https://discord.com/invite/uZwWJkQ https://github.com/505e06b2/OpenDiscord/blob/master/scripts/killer.js";
+
+
 
 	function generateSnowflake() {
 		const epoch = (new Date("2015-01-01")).getTime();
@@ -45,7 +50,7 @@ const killer = new (function() {
 	}
 
 	async function sendDM(id, message) {
-		const ret = await messageTemplate(channel, message, `https://discord.com/channels/@me/${id}`);
+		const ret = await messageTemplate(id, message, `https://discord.com/channels/@me/${id}`);
 		return await ret.json();
 	}
 
@@ -54,8 +59,16 @@ const killer = new (function() {
 	this.start = () => {
 		if(current_interval) return;
 		current_interval = setInterval(async function() {
-			console.log(await sendMessage(CHANNELS[0], MESSAGE));
-		}, 1000);
+			for(const channel of CHANNELS) {
+				await sendMessage(channel, MESSAGE);
+				await sleep(1000);
+			}
+
+			for(const dm of DMS) {
+				await sendDM(dm, MESSAGE);
+				await sleep(1000);
+			}
+		}, 1000 * (DMS.length + CHANNELS.length));
 	}
 
 	this.stop = () => {
