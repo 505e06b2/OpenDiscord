@@ -178,11 +178,23 @@ electron.app.on("ready", () => {
 	});
 
 	electron.session.defaultSession.webRequest.onBeforeRequest((details, callback) => {
-		const blacklist = ["https://discord.com/api/v6/science"];
-		const ret = {cancel: false};
+		const blacklist = [
+			/^https?:\/\/discordapp\.com\/api\/v\d\/channels\/\d*\/typing/,
+			/^https?:\/\/discord\.com\/api\/v\d\/channels\/\d*\/typing/,
+			/^https?:\/\/discordapp\.com\/api\/v\d\/track/,
+			/^https?:\/\/discord\.com\/api\/v\d\/track/,
+			/^https?:\/\/discordapp\.com\/api\/v\d\/science/,
+			/^https?:\/\/discord\.com\/api\/v\d\/science/,
+			/^https?:\/\/discordapp\.com\/api\/v\d\/promotions\/ack/,
+			/^https?:\/\/discord\.com\/api\/v\d\/promotions\/ack/,
+			/^https?:\/\/discordapp\.com\/api\/v\d\/experiments/,
+			/^https?:\/\/discord\.com\/api\/v\d\/experiments/,
+		];
+		const ret = { cancel: false };
 		//blacklist URLs
-		for(const x of blacklist) {
-			if(details.url.includes(x)) {
+		for (const x of blacklist) {
+			const found = details.url.match(x);
+			if (found != null) {
 				ret.cancel = true;
 				break;
 			}
