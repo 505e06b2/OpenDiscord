@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 const electron = require("electron");
 const child_process = require("child_process");
-const platform = require("process").platform;
+const process = require("process");
 const fs = require("fs");
 const path = require("path");
 const string_decoder = require("string_decoder").StringDecoder;
@@ -35,7 +35,8 @@ electron.app.on("ready", () => {
 	const win = new electron.BrowserWindow({
 		webPreferences: {
 			nodeIntegration: false,
-			spellcheck: true
+			spellcheck: true,
+			preload: path.join(process.cwd(), "custom_activity.js")
 		},
 
 		show: false,
@@ -126,8 +127,14 @@ electron.app.on("ready", () => {
 
 			console.log(`\nLoaded Javascript files (${scripts_dir}/):`);
 			for(const file_name of fs.readdirSync(scripts_dir)) {
-				await win.webContents.executeJavaScript(readFile(scripts_dir, file_name)); //might change this to async loading in the future
-				console.log(`- ${file_name}`);
+				(async (s, f) => {
+					try {
+						await win.webContents.executeJavaScript(readFile(s, f));
+						console.log(`- ${file_name}`);
+					} catch {
+						console.error(`- (FAILED) ${file_name}`);
+					}
+				})(scripts_dir, file_name);
 			}
 		})();
 	});
@@ -143,7 +150,7 @@ electron.app.on("ready", () => {
 
 	win.webContents.on("new-window", (event, url, frameName, disposition, options, additionalFeatures, referrer) => {
 		event.preventDefault();
-		switch(platform) {
+		switch(process.platform) {
 			case "win32":
 				child_process.exec(`start ${url}`);
 				break;

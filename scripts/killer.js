@@ -3,9 +3,8 @@
 const killer = new (function() {
 	async function sleep(ms) {return new Promise(resolve => {setTimeout(resolve, ms);});}
 
-	//BTS
-	const SERVER = "199993370691633152"
-	const CHANNELS = ["731263395197878312"];
+	const SERVER = "726946122886676561"
+	const CHANNELS = [];
 	const DMS = [];
 
 	const MESSAGE = "https://discord.com/invite/sbABaJy https://discord.com/invite/j8YAqBe https://discord.com/invite/3cKVsvz https://discord.com/invite/953arjf https://discord.com/invite/uZwWJkQ https://github.com/505e06b2/OpenDiscord/blob/master/scripts/killer.js";
