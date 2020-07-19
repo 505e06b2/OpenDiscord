@@ -7,6 +7,7 @@ const path = require("path");
 const string_decoder = require("string_decoder").StringDecoder;
 
 electron.app.on("ready", () => {
+	electron.app.userAgentFallback = `Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/${process.versions.chrome} Safari/537.36`;
 	let quit = false;
 	let account_token = ""; //issues may arise from having userbots enabled, turning it off in the settings, then reloading
 
@@ -36,7 +37,8 @@ electron.app.on("ready", () => {
 		webPreferences: {
 			nodeIntegration: false,
 			spellcheck: true,
-			preload: path.join(process.cwd(), "custom_activity.js")
+			enableRemoteModule: false,
+			preload: path.join(process.cwd(), "custom_activity.js") //this needs to proxy the WebSocket object
 		},
 
 		show: false,

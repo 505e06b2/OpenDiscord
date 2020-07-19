@@ -3,11 +3,14 @@
 	const activity = { //https://discord.com/developers/docs/topics/gateway#activity-object
 		type: 0,
 		name: "with OpenDiscord",
-		details: "Get it on Github!",
-		application_id: "413437155021553674", //bot -> client_id
+		details: "Visit git.io/JJn7D",
+		state: "or go to github.com/505e06b2/OpenDiscord",
+		application_id: "734267150486732828", //bot -> client_id
 		assets: {
-			large_image: "733971962950582322", //bot -> art assets -> upload -> inspect element and get the background code
-			large_text: "Check my profile for a link!"
+			large_image: "734267782513950740", //bot -> art assets -> upload -> inspect element and get the background code
+			large_text: "OpenDiscord",
+			small_image: "734267811953639465",
+			small_text: "Get it on GitHub!"
 		}
 	};
 

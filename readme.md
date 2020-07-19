@@ -8,6 +8,8 @@ Before you run any code, please audit what you are launching; that's the whole p
 - As FOSS as possible
 - Enhanced privacy
 - Disabled tracking
+- Spoofed Useragent (Windows 10/Chrome)
+- Custom [activities](https://discord.com/developers/docs/topics/gateway#activity-object)
 - Faster startup
 - Javascript mod support
 - CSS styling support
