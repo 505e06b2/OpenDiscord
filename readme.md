@@ -2,6 +2,7 @@
 <br>
 <p align="center">
 	<img src="assets/icon.png?raw=true" width="200" height="200"alt="OpenDiscord Icon">
+	<br>
 	<b>OpenDiscord</b>
 </p>
 
