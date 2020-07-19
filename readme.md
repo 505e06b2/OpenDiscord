@@ -1,6 +1,6 @@
 <br>
 <br>
-<center><img src="assets/icon.png?raw=true" width="200" height="200" alt="OpenDiscord Icon"></center>
+<img src="assets/icon.png?raw=true" width="200" height="200" align="center" alt="OpenDiscord Icon">
 <center><b>OpenDiscord</b></center>
 
 ## What is this?
