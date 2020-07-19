@@ -41,7 +41,7 @@ electron.app.on("ready", () => {
 			nodeIntegration: false,
 			spellcheck: true,
 			enableRemoteModule: false,
-			preload: path.join(process.cwd(), "custom_activity.js") //this needs to proxy the WebSocket object
+			preload: path.join(process.cwd(), "preload.js") //this needs to proxy the WebSocket object
 		},
 
 		show: false,
