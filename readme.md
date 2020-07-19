@@ -1,4 +1,8 @@
-# OpenDiscord
+<br>
+<br>
+<center><img src="assets/icon.png?raw=true" width="200" height="200" alt="OpenDiscord Icon"></center>
+<center><b>OpenDiscord</b></center>
+
 ## What is this?
 This is an alternative to other solutions, the main one being BetterDiscord. When it comes to using the desktop version of Discord, you're forced to trust the system to not be malicious, even when it's able to view all your system processes and any keypress you make, even when the program is in the background. The current alternative is to use the browser version, and I recommend using it over OpenDiscord if possible. Every script and stylesheet included in this repo should work with any decent userscript + stylesheet injector, but may not get full functionality.
 

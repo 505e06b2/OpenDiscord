@@ -1,5 +1,6 @@
 (function() {
 
+	//This may not show up immediately - give it about 30s though and it should show up - if not, maybe check the validity of the following
 	const activity = { //https://discord.com/developers/docs/topics/gateway#activity-object
 		type: 0,
 		name: "with OpenDiscord",
@@ -8,7 +9,7 @@
 		application_id: "734267150486732828", //bot -> client_id
 		assets: {
 			large_image: "734267782513950740", //bot -> art assets -> upload -> inspect element and get the background code
-			large_text: "OpenDiscord",
+			//large_text: "OpenDiscord",
 			small_image: "734267811953639465",
 			small_text: "Get it on GitHub!"
 		}
