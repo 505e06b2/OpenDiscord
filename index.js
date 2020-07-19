@@ -6,6 +6,9 @@ const fs = require("fs");
 const path = require("path");
 const string_decoder = require("string_decoder").StringDecoder;
 
+//remove CSP warning - Discord has its own CSP settings
+process.env["ELECTRON_DISABLE_SECURITY_WARNINGS"] = "true";
+
 electron.app.on("ready", () => {
 	electron.app.userAgentFallback = `Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/${process.versions.chrome} Safari/537.36`;
 	let quit = false;
