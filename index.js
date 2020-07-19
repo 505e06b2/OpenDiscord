@@ -190,47 +190,32 @@ electron.app.on("ready", () => {
 	});
 
 	electron.session.defaultSession.webRequest.onBeforeRequest((details, callback) => {
-		const blacklist = [
-			/^https?:\/\/discordapp\.com\/api\/v\d\/channels\/\d*\/typing/,
-			/^https?:\/\/discord\.com\/api\/v\d\/channels\/\d*\/typing/,
-			/^https?:\/\/discordapp\.com\/api\/v\d\/track/,
-			/^https?:\/\/discord\.com\/api\/v\d\/track/,
-			/^https?:\/\/discordapp\.com\/api\/v\d\/science/,
-			/^https?:\/\/discord\.com\/api\/v\d\/science/,
-			/^https?:\/\/discordapp\.com\/api\/v\d\/promotions\/ack/,
-			/^https?:\/\/discord\.com\/api\/v\d\/promotions\/ack/,
-			/^https?:\/\/discordapp\.com\/api\/v\d\/experiments/,
-			/^https?:\/\/discord\.com\/api\/v\d\/experiments/,
+		const blacklist = [ //thanks to JamesLLL
+			///^https?:\/\/discord(app)?\.com\/api\/v\d\/channels\/\d*\/typing/, //Uncomment to disable typing notification
+			/^https?:\/\/discord(app)?\.com\/api\/v\d\/track/,
+			/^https?:\/\/discord(app)?\.com\/api\/v\d\/science/,
+			/^https?:\/\/discord(app)?\.com\/api\/v\d\/promotions\/ack/,
+			/^https?:\/\/discord(app)?\.com\/api\/v\d\/experiments/,
 		];
-		const ret = { cancel: false };
-		//blacklist URLs
-		for (const x of blacklist) {
-			const found = details.url.match(x);
-			if (found != null) {
-				ret.cancel = true;
-				break;
-			}
-		}
-		callback(ret);
+		callback({ cancel: blacklist.some((r) => details.url.match(r)) });
 	});
 
 	//Grab the authorisation keys so userscripts can perform selfbot actions
 	electron.session.defaultSession.webRequest.onBeforeSendHeaders((details, callback) => {
-		if(details.url.startsWith("https://discord.com/api/v6/")) {
-			for(const key in details.requestHeaders) {
-				const toLower = key.toLowerCase(); //in case the lettercasing is odd
+		if(details.url.match(/^https?:\/\/discord(app)?.com\/api\/v\d\//)) {
+			const headers = {}; //headers may start with capital letters, so we manipulate for consistency
+			for(const x in details.requestHeaders) headers[x.toLowerCase()] = details.requestHeaders[x];
 
-				if(settings.get("allow_selfbot_actions") && toLower === "authorization") {
-					if(details.requestHeaders[key] === "") {
-						details.requestHeaders[key] = account_token; //replace if blank
-					} else {
-						account_token = details.requestHeaders[key]; //set if given
-					}
-
-				} else if(toLower === "x-super-properties") { //remove tracking info
-					delete details.requestHeaders[key];
+			if("authorization" in headers && settings.get("allow_selfbot_actions")) {
+				if(headers["authorization"] === "") {
+					headers["authorization"] = account_token; //replace if blank
+				} else {
+					account_token = headers["authorization"]; //set if given
 				}
 			}
+
+			delete headers["x-super-properties"];
+			details.requestHeaders = headers;
 		}
 		callback(details);
 	});
