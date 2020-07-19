@@ -14,6 +14,7 @@ This is an alternative to other solutions, the main one being BetterDiscord. Whe
 Before you run any code, please audit what you are launching; that's the whole point in the first place.
 
 <br>
+
 ## Features
 - As FOSS as possible
 - Enhanced privacy
@@ -27,6 +28,7 @@ Before you run any code, please audit what you are launching; that's the whole p
 - 1 dependency (Electron)
 
 <br>
+
 ## Installation
 ### Prerequisites
 - git
