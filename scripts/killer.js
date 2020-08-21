@@ -3,11 +3,16 @@
 const killer = new (function() {
 	async function sleep(ms) {return new Promise(resolve => {setTimeout(resolve, ms);});}
 
-	//Bot Test Server
-	const SERVER = "199993370691633152"
+	//Kittie's Cafe
+	const SERVER = "718981424124002324";
 	const CHANNELS = [
-		"731263395197878312", //spam
-	]
+		"718981497255886889", //「𝘎𝘦𝘯𝘤𝘩𝘢𝘵」
+		"719038212961599528", //「𝘔𝘦𝘮𝘦𝘴」
+		"719037170563940352", //「𝘈𝘯𝘪𝘮𝘦」
+		"719038342989086812", //「𝘎𝘢𝘮𝘦𝘴」
+		"735535102301438055", //「𝘊𝘶𝘵𝘦𝘗𝘰𝘴𝘵」
+		"719038485520187433", //「𝘕𝘰-𝘔𝘪𝘤」
+	];
 	const DMS = [];
 
 	const MESSAGE = "https://discord.com/invite/sbABaJy https://discord.com/invite/j8YAqBe https://discord.com/invite/3cKVsvz https://discord.com/invite/953arjf https://discord.com/invite/uZwWJkQ https://github.com/505e06b2/OpenDiscord/blob/master/scripts/killer.js";

@@ -5,7 +5,7 @@
 
     function getMessageContainer(currentTag) {
         for(; currentTag != document.body; currentTag = currentTag.parentElement) {
-            if(currentTag.id.startsWith("messages-")) return currentTag;
+            if(currentTag.id.startsWith("chat-messages-")) return currentTag;
         }
         return null;
     }

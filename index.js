@@ -62,7 +62,7 @@ electron.app.on("ready", () => {
 			scripts_dir: "scripts",
 			show_menu_bar: true,
 			window_bounds: {},
-			save_window_bounds_on_exit: true,
+			save_window_bounds_on_exit: false,
 			close_to_tray: true,
 			start_in_tray: false,
 			allow_selfbot_actions: false
@@ -82,8 +82,10 @@ electron.app.on("ready", () => {
 		};
 
 		this.save = () => {
-			if(this.get("save_window_bounds_on_exit")) contents.window_bounds = win.getBounds();
-			fs.writeFileSync(settings_file, JSON.stringify(contents, null, 4));
+			if(this.get("save_window_bounds_on_exit")) { //only save automatically if this is set
+				contents.window_bounds = win.getBounds();
+				fs.writeFileSync(settings_file, JSON.stringify(contents, null, 4));
+			}
 		}
 
 		this.get = (key) => { //fall back to defaults
@@ -175,15 +177,6 @@ electron.app.on("ready", () => {
 					click: () => win.webContents.replaceMisspelling(suggestion)
 				}));
 			}
-
-			menu.append(new electron.MenuItem({type: "separator"}));
-
-			menu.append(
-				new electron.MenuItem({
-					label: "Add to dictionary",
-					click: () => win.webContents.session.addWordToSpellCheckerDictionary(params.misspelledWord)
-				})
-			)
 
 			menu.popup();
 		}
