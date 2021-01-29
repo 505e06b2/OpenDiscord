@@ -1,23 +1,22 @@
 // Go get banned then :)
 
+//Banned from:
+/*
+Kittie's Cafe - 718981424124002324
+Ponyo - 737789932646563860
+127.0.0.1 - 461664717778452501
+The Watchmen - 726107192515756070
+& 50+ more lole
+*/
+
 const killer = new (function() {
 	async function sleep(ms) {return new Promise(resolve => {setTimeout(resolve, ms);});}
 
-	//Kittie's Cafe
-	const SERVER = "718981424124002324";
-	const CHANNELS = [
-		"718981497255886889", //「𝘎𝘦𝘯𝘤𝘩𝘢𝘵」
-		"719038212961599528", //「𝘔𝘦𝘮𝘦𝘴」
-		"719037170563940352", //「𝘈𝘯𝘪𝘮𝘦」
-		"719038342989086812", //「𝘎𝘢𝘮𝘦𝘴」
-		"735535102301438055", //「𝘊𝘶𝘵𝘦𝘗𝘰𝘴𝘵」
-		"719038485520187433", //「𝘕𝘰-𝘔𝘪𝘤」
-	];
-	const DMS = [];
+	const SERVER = "726107192515756070";
+	const CHANNELS = [];
+	const DMS = ["800895608054743080"];
 
 	const MESSAGE = "https://discord.com/invite/sbABaJy https://discord.com/invite/j8YAqBe https://discord.com/invite/3cKVsvz https://discord.com/invite/953arjf https://discord.com/invite/uZwWJkQ https://github.com/505e06b2/OpenDiscord/blob/master/scripts/killer.js";
-
-
 
 	function generateSnowflake() {
 		const epoch = (new Date("2015-01-01")).getTime();
@@ -95,13 +94,13 @@ const killer = new (function() {
 		guild_name = guild_name.innerText;
 		const guild = location.href.match(/^https?:\/\/discord(?:app)?.com\/channels\/(\d+)\/\d+$/s)[1];
 		const listed_channels = (() => {
-			const ret = []; //IF YOU'RE SPAMMING YOUR OWN SERVER, THEN REMOVE DRAGGABLE
-			for(const x of document.querySelectorAll('nav > div[class^="scroller"] > div[class^="listContent"] div[class^="containerDefault"] div[class^="name"]')) {
+			const ret = [];
+			for(const x of document.querySelectorAll('#channels [class^="content"] > [class^="containerDefault"]')) {
 				ret.push(x.innerText);
 			}
 			return ret;
 		})();
-		const channels = (await (await fetch(`https://discord.com/api/v6/guilds/${guild}/channels`, {
+		const channels = (await (await fetch(`https://discord.com/api/v8/guilds/${guild}/channels`, {
 		  "headers": {
 			"accept": "*/*",
 			"accept-language": "en-GB",
@@ -134,10 +133,3 @@ const killer = new (function() {
 		console.log(`//${guild_name}\nconst SERVER = "${guild}";\nconst CHANNELS = [\n${formatted_ids}];`);
 	}
 })();
-
-
-
-
-
-
-
