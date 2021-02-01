@@ -42,10 +42,37 @@ function customActivity() {
 		afk: false
 	};
 
-	window.WebSocket = function(url, protocols) {
+	window.WebSocket = new Proxy(nativeWebSocket, {
+		construct(target, args) {
+			const socket = new target(...args);
+
+			socket.send = new Proxy(socket.send, {
+				apply: function(target, thisArg, argumentsList) {
+					const obj = JSON.parse(argumentsList[0]);
+					switch(obj.op) {
+						case 2:
+							current_presence = obj.d.presence;
+							obj.d.presence.activities = [getActivity()];
+							break;
+
+						case 3:
+							current_presence = obj.d;
+							obj.d.activities = [getActivity()];
+							break;
+					}
+					return Reflect.apply(target, thisArg, [JSON.stringify(obj)]);
+				}
+			});
+
+			if((new URL(args[0])).hostname === "gateway.discord.gg") current_gateway_socket = socket;
+			return socket;
+		}
+	});
+
+	/*function(url, protocols) {
 		const socket = new nativeWebSocket(url, protocols);
 
-		this.send = (data) => { //tried to proxy this instead, but it didn't work
+		this.send = (data) => {
 			const obj = JSON.parse(data);
 			switch(obj.op) {
 				case 2:
@@ -72,8 +99,8 @@ function customActivity() {
 			}
 		}
 
-		if((new URL(url)).hostname === "gateway.discord.gg") current_gateway_socket = this;
-	}
+
+	}*/
 
 	//watch the json file and update status when changes
 	fs.watchFile(activity_file, (current, previous) => {
