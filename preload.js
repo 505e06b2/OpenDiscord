@@ -2,7 +2,14 @@
 
 function customActivity() {
 	const activity_file = "./activity.json";
+	const settings_file = "./settings.json";
 	const fs = require("fs");
+
+	let rich_presence_enabled = false;
+	try {
+		rich_presence_enabled = JSON.parse(fs.readFileSync(settings_file))["enable_rich_presence"]; //can't just require or it won't be dynamic
+	} catch {}
+
 	//This function requires window.WebSocket to be proxied - if you don't trust it, disable below
 	//This may not show up immediately - give it about 30s though and it should show up - if not, maybe check the validity of the following
 
@@ -49,16 +56,18 @@ function customActivity() {
 			socket.send = new Proxy(socket.send, {
 				apply: function(target, thisArg, argumentsList) {
 					const obj = JSON.parse(argumentsList[0]);
-					switch(obj.op) {
-						case 2:
-							current_presence = obj.d.presence;
-							obj.d.presence.activities = [getActivity()];
-							break;
+					if(rich_presence_enabled) {
+						switch(obj.op) {
+							case 2:
+								current_presence = obj.d.presence;
+								obj.d.presence.activities = [getActivity()];
+								break;
 
-						case 3:
-							current_presence = obj.d;
-							obj.d.activities = [getActivity()];
-							break;
+							case 3:
+								current_presence = obj.d;
+								obj.d.activities = [getActivity()];
+								break;
+						}
 					}
 					return Reflect.apply(target, thisArg, [JSON.stringify(obj)]);
 				}
@@ -108,5 +117,4 @@ function customActivity() {
 	});
 }
 
-// call functions
 customActivity();

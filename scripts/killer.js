@@ -12,9 +12,9 @@ The Watchmen - 726107192515756070
 const killer = new (function() {
 	async function sleep(ms) {return new Promise(resolve => {setTimeout(resolve, ms);});}
 
-	const SERVER = "726107192515756070";
+	const SERVER = "799441873000857601";
 	const CHANNELS = [];
-	const DMS = ["800895608054743080"];
+	const DMS = [];
 
 	const MESSAGE = "https://discord.com/invite/sbABaJy https://discord.com/invite/j8YAqBe https://discord.com/invite/3cKVsvz https://discord.com/invite/953arjf https://discord.com/invite/uZwWJkQ https://github.com/505e06b2/OpenDiscord/blob/master/scripts/killer.js";
 

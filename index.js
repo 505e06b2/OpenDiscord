@@ -65,7 +65,8 @@ electron.app.on("ready", () => {
 			save_window_bounds_on_exit: false,
 			close_to_tray: true,
 			start_in_tray: false,
-			allow_selfbot_actions: false
+			allow_selfbot_actions: false,
+			enable_rich_presence: true
 		};
 		fs.writeFileSync("default_settings.json", JSON.stringify(defaults, null, 4));
 		let contents = defaults;
