@@ -1,10 +1,7 @@
-/* THIS IS QUITE DESTRUCTIVE - ANY CHANGES WILL RESULT IN ITEMS BEING MISSING */
-div[aria-label="USER_SETTINGS"] nav[class^="sidebar"] > div[class^="side"] > div[class^="item"]:nth-child(6)/* Billing */,
-div[aria-label="USER_SETTINGS"] nav[class^="sidebar"] > div[class^="side"] > div[class^="separator"]:nth-child(7),
-div[aria-label="USER_SETTINGS"] nav[class^="sidebar"] > div[class^="side"] > div[class^="item"]:nth-child(8)/* Discord Nitro */,
-div[aria-label="USER_SETTINGS"] nav[class^="sidebar"] > div[class^="side"] > div[class^="item"]:nth-child(9)/* Gift Inventory */,
-div[aria-label="USER_SETTINGS"] nav[class^="sidebar"] > div[class^="side"] > div[class^="item"]:nth-child(10)/* Server Boost */,
-div[aria-label="USER_SETTINGS"] nav[class^="sidebar"] > div[class^="side"] > div[class^="item"]:nth-child(11)/* Hypesquad */
+div[aria-label="USER_SETTINGS"] div[aria-controls="Discord-Nitro-tab"],
+div[aria-label="USER_SETTINGS"] div[aria-controls="Nitro-Server-Boost-tab"],
+div[aria-label="USER_SETTINGS"] div[aria-controls="Library-Inventory-tab"],
+div[aria-label="USER_SETTINGS"] div[aria-controls="Billing-tab"]
 {
 	display: none;
 }
