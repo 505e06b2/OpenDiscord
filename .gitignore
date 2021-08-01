@@ -1,0 +1,7 @@
+*.geany
+node_modules/*
+settings.json
+default_settings.json
+activity.json
+prbg.json
+youtube_playlist.json
