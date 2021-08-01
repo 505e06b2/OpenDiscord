@@ -8,10 +8,11 @@
 
 	function editMessage(e) {
         const message = getMessageContainer(e.target);
+        console.log(message);
         if(!message) return;
         e.preventDefault();
 
-        message.querySelector('div[aria-label="Message Actions"] div[aria-label="Edit"]').click();
+        message.querySelector('div[aria-label="Message actions"] div[aria-label="Edit"]').click();
     }
 
 	document.body.ondblclick = editMessage;

@@ -101,24 +101,24 @@
             }
 
             await setReaction(message, message_id, code);
-            await sleep(100);
+            await sleep(1000);
         };
     }
 
     function alterContextMenu(message, x, y) {
         const popout_menu = document.querySelector('div[class^=layerContainer] > div[id^="popout"]');
 
-        const items = popout_menu.querySelectorAll('div[aria-label="Message Actions"] div[id^="message-actions-"]');
+        const items = popout_menu.querySelectorAll('div[aria-label="Message actions"] div[id^="message-actions-"]');
         const addMenuItem = (text, func) => {
             const new_item = items[0].cloneNode(true);
             new_item.id = "";
             new_item.querySelector('div[class^="label"]').innerText = text;
             new_item.querySelector('svg').outerHTML = "";
             new_item.onclick = func;
-            popout_menu.querySelector('div[aria-label="Message Actions"] div[class^="scroller-"]').prepend(new_item);
+            popout_menu.querySelector('div[aria-label="Message actions"] div[class^="scroller-"]').prepend(new_item);
         }
 
-        addMenuItem("Add Reaction", () => { message.querySelector('div[aria-label="Message Actions"] div[aria-label="Add Reaction"]').click(); });
+        addMenuItem("Add Reaction", () => { message.querySelector('div[aria-label="Message actions"] div[aria-label="Add Reaction"]').click(); });
         if(SELFBOT_ACTIONS_ENABLED) { //set by index.js if "allow_selfbot_actions" is true
 			addMenuItem("Write in Reaction", () => {
 				const messagebox_element = document.querySelector('div[class^="textArea"] > div[aria-label^="Message "] > div[data-slate-object="block"]');
@@ -144,7 +144,7 @@
         if(!message) return;
         e.preventDefault();
 
-        message.querySelector('div[aria-label="Message Actions"] div[aria-label="More"]').click();
+        message.querySelector('div[aria-label="Message actions"] div[aria-label="More"]').click();
         alterContextMenu(message, e.clientX, e.clientY);
     }
 
