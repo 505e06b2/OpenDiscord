@@ -118,3 +118,4 @@ function customActivity() {
 }
 
 customActivity();
+window.LOCAL_STORAGE = window.localStorage;
