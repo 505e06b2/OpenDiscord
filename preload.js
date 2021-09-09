@@ -78,39 +78,6 @@ function customActivity() {
 		}
 	});
 
-	/*function(url, protocols) {
-		const socket = new nativeWebSocket(url, protocols);
-
-		this.send = (data) => {
-			const obj = JSON.parse(data);
-			switch(obj.op) {
-				case 2:
-					current_presence = obj.d.presence;
-					obj.d.presence.activities = [getActivity()];
-					break;
-
-				case 3:
-					current_presence = obj.d;
-					obj.d.activities = [getActivity()];
-					break;
-			}
-			socket.send(JSON.stringify(obj));
-		}
-
-		this.close = (code, reason) => socket.close(code, reason);
-
-		for(const x in socket) {
-			if(!this[x]) { //don't overrite anything already here (close/send)
-				Object.defineProperty(this, x, {
-					get: () => socket[x],
-					set: (v) => { socket[x] = v }
-				});
-			}
-		}
-
-
-	}*/
-
 	//watch the json file and update status when changes
 	fs.watchFile(activity_file, (current, previous) => {
 		if(current_gateway_socket) current_gateway_socket.send(JSON.stringify({op: 3, d: current_presence}));
